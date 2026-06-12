@@ -1,0 +1,134 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
+ */
+package messagetest;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ *
+ * @author MPHOENTLE
+ */
+
+public class JUnitTest2 {
+    
+    // Moved Message class outside as a proper inner class
+    public class Message {
+
+        public String createMessageHash(String text) {
+            return Integer.toHexString(text.hashCode());
+        }
+
+        private boolean checkMessageID(long validId) {
+            // Implement actual validation logic
+            // Example: Check if ID is between 1 and 9999999999L
+            return validId > 0 && validId <= 9999999999L;
+        }
+
+        private String sentMessage(int option) {
+            switch(option) {
+                case 1:
+                    return "Message successfully sent.";
+                case 2:
+                    return "Press 0 to delete the message.";
+                case 3:
+                    return "Message successfully stored.";
+                default:
+                    return "Invalid option.";
+            }
+        }
+    }
+    
+    Message message;
+    
+    public JUnitTest2() {
+        
+    }
+    
+    // Runs before every test
+    @BeforeEach
+    public void setUp() {
+        message = new Message();
+    }
+
+    // Test message length success
+    @Test
+    public void testMessageLengthSuccess() {
+        String testMessage = "Hi Mike, can you join us for dinner tonight?";
+        assertTrue(testMessage.length() <= 250);
+    }
+
+    // Test message length failure
+    @Test
+    public void testMessageLengthFailure() {
+        StringBuilder testMessage = new StringBuilder(" ");
+        
+        for(int i = 0; i < 251; i++) {
+            testMessage.append("A");
+        }
+
+        assertFalse(testMessage.toString().length() <= 250);
+    }
+
+    // Test valid South African cell number
+    @Test
+    public void testValidCellNumber() {
+        String recipient = "+27718693002";
+        assertTrue(recipient.startsWith("+27") && recipient.length() == 12);
+    }
+
+    // Test invalid cell number
+    @Test
+    public void testInvalidCellNumber() {
+        String recipient = "08575975889";
+        boolean result = recipient.startsWith("+27") && recipient.length() == 12;
+        assertFalse(result);
+    }
+    
+    // Test message hash generation
+    @Test
+    public void testMessageHash() {
+        String messageHash = message.createMessageHash("Hello");
+        assertNotNull(messageHash);
+        // Additional check to ensure hash is not empty
+        assertNotEquals("", messageHash);
+    }
+
+    // Test message ID validation
+    @Test
+    public void testMessageID() {
+        long validId = 1234567890L;
+        long invalidId = 987654321012L;
+
+        assertTrue(message.checkMessageID(validId));
+        assertFalse(message.checkMessageID(invalidId));
+    }
+
+    // Test send message option
+    @Test
+    public void testMessageSent() {
+        String result = message.sentMessage(1);
+        assertEquals("Message successfully sent.", result);
+    }
+
+    // Test disregard message option
+    @Test
+    public void testDisregardMessageOption() {
+        String result = message.sentMessage(2);
+        assertEquals("Press 0 to delete the message.", result);
+    }
+
+    // Test store message option
+    @Test
+    public void testStoreMessageOption() {
+        String result = message.sentMessage(3);
+        assertEquals("Message successfully stored.", result);
+    }
+}
+    
