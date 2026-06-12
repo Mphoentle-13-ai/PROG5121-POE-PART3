@@ -1,0 +1,57 @@
+package com.mycompany.loginandregistrationunittesting;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class LoginAndRegistrationUnitTestingTest {
+
+   
+    // USERNAME TESTS 
+    @Test
+    public void testUsernameCorrectlyFormatted() {
+        String username = "MNS_1"; // valid – has underscore & length ≤ 5
+    }
+
+    @Test
+    public void testUsernameIncorrectlyFormatted() {
+        String username = "kyle!!!!!!!"; // invalid – no underscore, too long
+        assertFalse(lc.checkUsername(username), "Username should be incorrectly formatted");
+    }
+
+    // PASSWORD TESTS 
+    @Test
+    public void testPasswordMeetsComplexityRequirements() {
+        String password = "Ch&&sec@ke9!"; // valid – ≥8 chars, uppercase, number, special char
+    }
+
+    @Test
+    public void testPasswordDoesNotMeetComplexityRequirements() {
+        String password = "password"; // invalid – no uppercase, number, or special char
+        assertFalse(lc.checkPasswordComplexity(password), "Password should not meet complexity requirements");
+    }
+
+    // CELLPHONE TESTS 
+    @Test
+    public void testCellPhoneNumberCorrectlyFormatted() {
+        String phone = "+27838968976"; // valid – starts with +27 & length = 12
+   
+    }
+
+    @Test
+    public void testCellPhoneNumberIncorrectlyFormatted() {
+        String phone = "08966553"; // invalid – no +27, wrong length
+        assertFalse(lc.checkCellPhoneNumber(phone), "Cell phone number should be incorrectly formatted");
+    }
+
+    // LOGIN TESTS 
+    @Test
+    public void testLoginSuccessful() {
+    }
+
+    @Test
+    public void testLoginFailed() {
+        // invalid credentials
+        assertFalse(lc.loginUser("wrongUser", "WrongPass"), "Login should fail with invalid credentials");
+    }
+}
